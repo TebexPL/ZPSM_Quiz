@@ -1,46 +1,71 @@
 import * as React from 'react';
 import {Component} from 'react';
-import { TouchableOpacity, ScrollView, Text, StyleSheet } from 'react-native';
+import { TouchableOpacity, FlatList, Text, StyleSheet, RefreshControl } from 'react-native';
 import TestCard from './MainScreenComponents/TestCard';
 import ResultsHint from './MainScreenComponents/ResultsHint';
-import LoadingHint from './CommonComponents/LoadingHint';
 
+import { createDrawerNavigator } from '@react-navigation/drawer';
+import { NavigationContainer } from '@react-navigation/native';
 
 
 
 
 class MainScreen extends Component{
 
-  constructor(props){
-    super(props);
+  getTests = async () => {
+    this.setState({tests: [], loading:true});
+    try{
+      const response = await fetch('http://tgryl.pl/quiz/tests');
+      const tests = await response.json();
+      for(test of tests){
+        const response = await fetch('http://tgryl.pl/quiz/test/'+test.id);
+        const details = await response.json();
+        test.details = details;
+      }
+      this.setState({tests: tests, loading: false});
 
-    this.state = {
-        navigation: props.navigation
+    }
+    catch(error){
+      console.error(error);
     }
   }
 
-  styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      flexDirection: 'column',
-      marginTop: 5,
-      backgroundColor: '#D5D5D5',
-    },
-    itemContainer: {
-      alignItems: 'center',
+  constructor(props){
+    super(props);
+    console.log();
+    this.state = {
+      tests: [],
+      navigation: props.navigation,
+      drawer: props.drawer,
+      loading: true
     }
+  }
 
-  })
+  componentDidMount(){
+    this.getTests();
+  }
+
+  renderItem = ({ item }) => (
+      <TestCard test={item} navigation={this.state.navigation} />
+  );
+
 
   render(){
     return (
-      <ScrollView style={this.styles.container} contentContainerStyle={this.styles.itemContainer}>
-        {this.props.loading ? <LoadingHint /> : <ResultsHint navigation={this.state.navigation}/>}
 
-        {this.props.tests.map((test, key) =>
-          <TestCard key={key} test={test} navigation={this.state.navigation} />
-        )}
-      </ScrollView>
+      <FlatList
+        refreshControl={
+          <RefreshControl
+            refreshing={this.state.loading}
+            onRefresh={this.getTests}
+          />
+        }
+         ListHeaderComponent={<ResultsHint navigation={this.state.navigation}/>}
+         data={this.state.tests}
+         renderItem={this.renderItem}
+         keyExtractor={item => item.id}
+       />
+
     )
   }
 };

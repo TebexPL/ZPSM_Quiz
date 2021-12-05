@@ -1,8 +1,8 @@
 import * as React from 'react';
 import {Component} from 'react';
-import { Button, View, Text, StyleSheet, ScrollView } from 'react-native';
-import ResultTable from './ResultScreenComponents/ResultTable';
-import LoadingHint from './CommonComponents/LoadingHint';
+import { Button, View, Text, StyleSheet, FlatList, RefreshControl} from 'react-native';
+import TypeHint from './ResultScreenComponents/TypeHint';
+import SingleResult from './ResultScreenComponents/SingleResult';
 
 
 
@@ -10,10 +10,22 @@ import LoadingHint from './CommonComponents/LoadingHint';
 class ResultScreen extends Component{
 
   getResults = async () => {
+    this.setState({results: [], loading:true});
     try{
       const response = await fetch('http://tgryl.pl/quiz/results');
       const results = await response.json();
-      this.setState({results: results, loading: false});
+
+      const types = results.map(x => x.type);
+      const uniqueTypes = [...new Set(types)];
+
+      let sortedResults = [];
+      for(let type of uniqueTypes){
+        let result = {};
+        result.type = type;
+        result.list = results.filter((element) => element.type == type);
+        sortedResults.push(result);
+      }
+      this.setState({results: sortedResults, loading: false});
     }
     catch(error){
       console.error(error);
@@ -26,28 +38,40 @@ class ResultScreen extends Component{
       results: [],
       loading: true
     }
-    this.getResults();
   }
 
-  styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      flexDirection: 'column',
-      marginTop: 5,
-      backgroundColor: '#D5D5D5',
-    },
-    itemContainer: {
-      alignItems: 'center',
+    componentDidMount(){
+      this.getResults();
     }
 
-  })
+  renderInner =({ item }) => (
+    <SingleResult result={item} />
+  );
+
+  renderOuter = ({ item }) => (
+    <FlatList
+      ListHeaderComponent={<TypeHint type={item.type} />}
+       data={item.list}
+       renderItem={this.renderInner}
+       keyExtractor={item => item.id}
+     />
+  );
+
   render(){
+
     return (
-      <ScrollView style={this.styles.container} contentContainerStyle={this.styles.itemContainer}>
-        {this.props.loading ? <LoadingHint /> : <ResultTable results={this.state.results} />}
+          <FlatList
+            refreshControl={
+              <RefreshControl
+                refreshing={this.state.loading}
+                onRefresh={this.getResults}
+              />
+            }
+             data={this.state.results}
+             renderItem={this.renderOuter}
+             keyExtractor={item => item.type}
+           />
 
-
-      </ScrollView>
     )
   }
 };

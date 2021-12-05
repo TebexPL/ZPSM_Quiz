@@ -17,32 +17,8 @@ const Drawer = createDrawerNavigator();
 
 class App extends Component{
 
-  getTests = async () => {
-    try{
-      const response = await fetch('http://tgryl.pl/quiz/tests');
-      const tests = await response.json();
-      for(test of tests){
-        const response = await fetch('http://tgryl.pl/quiz/test/'+test.id);
-        const details = await response.json();
-        test.details = details;
-      }
-      this.setState({tests: tests, loading: false});
-    }
-    catch(error){
-      console.error(error);
-    }
-
-
-
-  }
-
   constructor(){
     super();
-    this.state = {
-      tests: [],
-      loading: true
-    }
-    this.getTests();
 
   }
 
@@ -51,20 +27,14 @@ class App extends Component{
   render(){
     return (
       <NavigationContainer>
-        <Drawer.Navigator initialRouteName="Results">
+        <Drawer.Navigator initialRouteName="Home Page">
           <Drawer.Screen name="Home Page">
-            {({navigation}) => <MainScreen navigation={navigation} tests={this.state.tests} loading={this.state.loading} />}
+            {({navigation}) => <MainScreen navigation={navigation} drawer={Drawer}/>}
           </Drawer.Screen>
           <Drawer.Screen name="Results"  >
             {({navigation}) => <ResultScreen navigation={navigation} />}
           </Drawer.Screen>
-          {this.state.tests.map((test, key) =>
-            <Drawer.Screen name={test.name} key={key} >
-              {({navigation}) => <TestScreen navigation={navigation} test={test} key={key} />}
-            </Drawer.Screen>
 
-
-          )}
 
 
         </Drawer.Navigator>
