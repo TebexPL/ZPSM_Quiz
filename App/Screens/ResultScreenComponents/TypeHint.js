@@ -4,29 +4,29 @@ import { TouchableOpacity, View, Text, StyleSheet } from 'react-native';
 
 
 
-class LoadingHint extends Component{
+class TypeHint extends Component{
 
   constructor(props){
     super(props);
     this.state = {
-        navigation: props.navigation
+      type: props.type
     }
+
   }
 
   styles = StyleSheet.create({
     container: {
       flex: 1,
       width: '100%',
-      padding: "4%",
-      flexDirection: 'column',
-      alignItems: 'center',
+      height: 70,
+      flexDirection: 'row',
       justifyContent: 'center',
-      backgroundColor: 'white',
-      margin: '0.5%',
+      alignItems: 'center',
+      backgroundColor: 'grey',
     },
     title:{
-      flex:1,
       fontSize: 30,
+      color: 'white',
     },
 
   })
@@ -35,7 +35,7 @@ class LoadingHint extends Component{
     return (
         <View style={this.styles.container}>
             <Text style={this.styles.title}>
-              Loading...
+              {this.state.type}
             </Text>
 
         </View>
@@ -43,4 +43,4 @@ class LoadingHint extends Component{
   }
 };
 
-export default LoadingHint;
+export default TypeHint;

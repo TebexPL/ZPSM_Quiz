@@ -1,6 +1,6 @@
 import * as React from 'react';
 import {Component} from 'react';
-import { Button, View, Text, StyleSheet } from 'react-native';
+import { Button, View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 
 
 
@@ -9,7 +9,8 @@ class TestCard extends Component{
   constructor(props){
     super(props);
     this.state = {
-        test: props.test
+        test: props.test,
+        navigation: props.navigation
     }
   }
 
@@ -46,7 +47,7 @@ class TestCard extends Component{
 
   render(){
     return (
-        <View style={this.styles.container}>
+        <TouchableOpacity style={this.styles.container} onPress={() => this.state.navigation.navigate(this.state.test.name)}>
             <Text style={this.styles.name}>
               {this.state.test.name}
             </Text>
@@ -62,7 +63,7 @@ class TestCard extends Component{
             <Text style={this.styles.description}>
               {this.state.test.description}
             </Text>
-        </View>
+        </TouchableOpacity>
     )
   }
 };

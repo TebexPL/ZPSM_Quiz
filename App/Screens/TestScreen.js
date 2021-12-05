@@ -4,11 +4,19 @@ import { Button, View, Text, StyleSheet } from 'react-native';
 
 
 class TestScreen extends Component{
+
+  constructor(props){
+    super(props);
+    this.state = {
+      test: props.test
+    }
+  }
+
   render(){
     return (
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
         <Text>
-          Nothing yet
+          {this.state.test.name}
         </Text>
       </View>
     )

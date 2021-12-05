@@ -7,6 +7,8 @@ import MainScreen from './Screens/MainScreen';
 import TestScreen from './Screens/TestScreen';
 import ResultScreen from './Screens/ResultScreen';
 
+import {LogBox } from 'react-native';
+LogBox.ignoreLogs(['Reanimated 2']);
 
 
 
@@ -49,16 +51,16 @@ class App extends Component{
   render(){
     return (
       <NavigationContainer>
-        <Drawer.Navigator initialRouteName="Main">
+        <Drawer.Navigator initialRouteName="Results">
           <Drawer.Screen name="Home Page">
-            {() => <MainScreen tests={this.state.tests} loading={this.state.loading} />}
+            {({navigation}) => <MainScreen navigation={navigation} tests={this.state.tests} loading={this.state.loading} />}
           </Drawer.Screen>
           <Drawer.Screen name="Results"  >
-            {() =><ResultScreen />}
+            {({navigation}) => <ResultScreen navigation={navigation} />}
           </Drawer.Screen>
           {this.state.tests.map((test, key) =>
-            <Drawer.Screen name={test.name} >
-              {() => <TestScreen test={test} key={key} />}
+            <Drawer.Screen name={test.name} key={key} >
+              {({navigation}) => <TestScreen navigation={navigation} test={test} key={key} />}
             </Drawer.Screen>
 
 
