@@ -15,22 +15,32 @@ const Drawer = createDrawerNavigator();
 
 class App extends Component{
 
+  getTests = async () => {
+    try{
+      const response = await fetch('http://tgryl.pl/quiz/tests');
+      const tests = await response.json();
+      for(test of tests){
+        const response = await fetch('http://tgryl.pl/quiz/test/'+test.id);
+        const details = await response.json();
+        test.details = details;
+      }
+      this.setState({tests: tests, loading: false});
+    }
+    catch(error){
+      console.error(error);
+    }
+
+
+
+  }
+
   constructor(){
     super();
-    let cards = [];
-    for(let i=0; i< 10; i++){
-      let card = {};
-      card.title = 'Title test #'+i;
-      card.tags = ["Tag1", "Tag2", "Tag3"];
-      card.text = 'But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth';
-      cards.push(card);
-    }
-
-
-
     this.state = {
-      cards: cards
+      tests: [],
+      loading: true
     }
+    this.getTests();
 
   }
 
@@ -41,11 +51,20 @@ class App extends Component{
       <NavigationContainer>
         <Drawer.Navigator initialRouteName="Main">
           <Drawer.Screen name="Home Page">
-            {() => <MainScreen cards={this.state.cards} />}
+            {() => <MainScreen tests={this.state.tests} loading={this.state.loading} />}
           </Drawer.Screen>
           <Drawer.Screen name="Results"  >
-            {() => <ResultScreen />}
+            {() =><ResultScreen />}
           </Drawer.Screen>
+          {this.state.tests.map((test, key) =>
+            <Drawer.Screen name={test.name} >
+              {() => <TestScreen test={test} key={key} />}
+            </Drawer.Screen>
+
+
+          )}
+
+
         </Drawer.Navigator>
       </NavigationContainer>
     )

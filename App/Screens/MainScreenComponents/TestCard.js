@@ -9,9 +9,7 @@ class TestCard extends Component{
   constructor(props){
     super(props);
     this.state = {
-        title: props.title,
-        tags: props.tags,
-        text: props.text
+        test: props.test
     }
   }
 
@@ -31,11 +29,11 @@ class TestCard extends Component{
     tagsContainer:{
       flexDirection: 'row',
     },
-    title:{
+    name:{
       fontSize: 30,
       marginBottom:15
     },
-    text:{
+    description:{
       marginTop: 10
     },
     tag:{
@@ -49,20 +47,20 @@ class TestCard extends Component{
   render(){
     return (
         <View style={this.styles.container}>
-            <Text style={this.styles.title}>
-              {this.state.title}
+            <Text style={this.styles.name}>
+              {this.state.test.name}
             </Text>
 
             <View style={this.styles.tagsContainer}>
-              {this.state.tags.map((tag, tagKey) =>
+              {this.state.test.tags.map((tag, tagKey) =>
                 <Text key={tagKey} style={this.styles.tag}>
                   #{tag}
                 </Text>
               )}
             </View>
-            
-            <Text style={this.styles.text}>
-              {this.state.text}
+
+            <Text style={this.styles.description}>
+              {this.state.test.description}
             </Text>
         </View>
     )

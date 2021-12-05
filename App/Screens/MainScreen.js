@@ -3,6 +3,9 @@ import {Component} from 'react';
 import { Button, ScrollView, Text, StyleSheet } from 'react-native';
 import TestCard from './MainScreenComponents/TestCard';
 import ResultsHint from './MainScreenComponents/ResultsHint';
+import LoadingHint from './MainScreenComponents/LoadingHint';
+import {LogBox } from 'react-native';
+LogBox.ignoreLogs(['Reanimated 2']);
 
 
 
@@ -15,7 +18,6 @@ class MainScreen extends Component{
 
 
     this.state = {
-        cards: props.cards,
         navigation: props.navigation
     }
   }
@@ -36,10 +38,10 @@ class MainScreen extends Component{
   render(){
     return (
       <ScrollView style={this.styles.container} contentContainerStyle={this.styles.itemContainer}>
-            <ResultsHint navigation={this.state.navigation}/>
+            {this.props.loading ? <LoadingHint /> : <ResultsHint navigation={this.state.navigation}/>}
 
-        {this.state.cards.map((card, key) =>
-          <TestCard key={key} title={card.title} tags={card.tags} text={card.text}/>
+        {this.props.tests.map((test, key) =>
+          <TestCard key={key} test={test} />
         )}
 
 
