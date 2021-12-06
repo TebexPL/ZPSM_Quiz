@@ -1,6 +1,6 @@
 import * as React from 'react';
 import {Component} from 'react';
-import { Button, View, Text, StyleSheet, FlatList, RefreshControl} from 'react-native';
+import { FlatList, RefreshControl} from 'react-native';
 import TypeHint from './ResultScreenComponents/TypeHint';
 import SingleResult from './ResultScreenComponents/SingleResult';
 
@@ -12,12 +12,8 @@ class ResultScreen extends Component{
   getResults = async () => {
     this.setState({results: [], loading:true});
     try{
-      const response = await fetch('http://tgryl.pl/quiz/results');
-      const results = await response.json();
-
-      const types = results.map(x => x.type);
-      const uniqueTypes = [...new Set(types)];
-
+      const results = await (await fetch('http://tgryl.pl/quiz/results')).json();
+      const uniqueTypes = [...new Set(results.map(x => x.type))];
       let sortedResults = [];
       for(let type of uniqueTypes){
         let result = {};

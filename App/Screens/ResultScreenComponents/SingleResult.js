@@ -1,6 +1,6 @@
 import * as React from 'react';
 import {Component} from 'react';
-import { Button, View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
 
 
 
@@ -39,21 +39,17 @@ class SingleResult extends Component{
       fontSize: 15,
       margin: 10
     }
-
-
   })
 
   render(){
     return (
         <View style={this.styles.container}>
-
             <Text style={this.styles.nick}>
               {this.state.result.nick}
             </Text>
             <Text style={this.styles.score}>
               {this.state.result.score}/{this.state.result.total} punktów
             </Text>
-
             <Text style={this.styles.date}>
               {this.state.result.createdOn}
             </Text>

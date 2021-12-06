@@ -1,6 +1,6 @@
 import * as React from 'react';
 import {Component} from 'react';
-import { TouchableOpacity, View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
 
 
 
@@ -37,7 +37,6 @@ class TypeHint extends Component{
             <Text style={this.styles.title}>
               {this.state.type}
             </Text>
-
         </View>
     )
   }

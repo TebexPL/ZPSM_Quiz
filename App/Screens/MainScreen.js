@@ -1,12 +1,8 @@
 import * as React from 'react';
 import {Component} from 'react';
-import { TouchableOpacity, FlatList, Text, StyleSheet, RefreshControl } from 'react-native';
+import { FlatList, RefreshControl } from 'react-native';
 import TestCard from './MainScreenComponents/TestCard';
 import ResultsHint from './MainScreenComponents/ResultsHint';
-
-import { createDrawerNavigator } from '@react-navigation/drawer';
-import { NavigationContainer } from '@react-navigation/native';
-
 
 
 
@@ -15,15 +11,12 @@ class MainScreen extends Component{
   getTests = async () => {
     this.setState({tests: [], loading:true});
     try{
-      const response = await fetch('http://tgryl.pl/quiz/tests');
-      const tests = await response.json();
+      const tests = await (await fetch('http://tgryl.pl/quiz/tests')).json();
       for(test of tests){
-        const response = await fetch('http://tgryl.pl/quiz/test/'+test.id);
-        const details = await response.json();
+        const details = await (await fetch('http://tgryl.pl/quiz/test/'+test.id)).json();
         test.details = details;
       }
       this.setState({tests: tests, loading: false});
-
     }
     catch(error){
       console.error(error);
@@ -32,11 +25,9 @@ class MainScreen extends Component{
 
   constructor(props){
     super(props);
-    console.log();
     this.state = {
       tests: [],
       navigation: props.navigation,
-      drawer: props.drawer,
       loading: true
     }
   }
@@ -52,7 +43,6 @@ class MainScreen extends Component{
 
   render(){
     return (
-
       <FlatList
         refreshControl={
           <RefreshControl

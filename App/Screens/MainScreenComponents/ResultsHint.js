@@ -56,9 +56,6 @@ class ResultsHint extends Component{
                 Check it!
               </Text>
             </TouchableOpacity>
-
-
-
         </View>
     )
   }

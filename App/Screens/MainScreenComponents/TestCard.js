@@ -1,6 +1,6 @@
 import * as React from 'react';
 import {Component} from 'react';
-import { Button, View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 
 
 
@@ -59,7 +59,6 @@ class TestCard extends Component{
                 </Text>
               )}
             </View>
-
             <Text style={this.styles.description}>
               {this.state.test.description}
             </Text>
