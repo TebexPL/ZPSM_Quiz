@@ -3,9 +3,9 @@ import {Component} from 'react';
 import { Button, View, Text, StyleSheet } from 'react-native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { NavigationContainer } from '@react-navigation/native';
-import MainScreen from './App/Screens/MainScreen';
-import TestScreen from './App/Screens/TestScreen';
-import ResultScreen from './App/Screens/ResultScreen';
+import MainScreen from './Screens/MainScreen';
+import TestScreen from './Screens/TestScreen';
+import ResultScreen from './Screens/ResultScreen';
 
 import {LogBox } from 'react-native';
 LogBox.ignoreLogs(['Reanimated 2']);
