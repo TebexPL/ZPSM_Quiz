@@ -40,6 +40,7 @@ class Drawer extends Component {
 
   render(){
     return (
+
       <NavigationContainer>
         <this.Drawer.Navigator initialRouteName="Home Page">
           <this.Drawer.Screen name="Home Page">
