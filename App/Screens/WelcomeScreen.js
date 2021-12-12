@@ -17,7 +17,6 @@ class WelcomeScreen extends Component{
        height: '100%',
        flexDirection: 'column',
        alignItems: 'center',
-
        backgroundColor: 'lightgrey'
     },
     headerText:{

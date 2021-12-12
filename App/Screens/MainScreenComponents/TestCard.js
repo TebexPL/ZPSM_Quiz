@@ -8,10 +8,6 @@ class TestCard extends Component{
 
   constructor(props){
     super(props);
-    this.state = {
-        test: props.test,
-        navigation: props.navigation
-    }
   }
 
   styles = StyleSheet.create({
@@ -47,20 +43,19 @@ class TestCard extends Component{
 
   render(){
     return (
-        <TouchableOpacity style={this.styles.container} onPress={() => this.state.navigation.navigate(this.state.test.name)}>
+        <TouchableOpacity style={this.styles.container} onPress={() => this.props.navigation.navigate(this.props.test.name)}>
             <Text style={this.styles.name}>
-              {this.state.test.name}
+              {this.props.test.name}
             </Text>
-
             <View style={this.styles.tagsContainer}>
-              {this.state.test.tags.map((tag, tagKey) =>
+              {this.props.test.tags.map((tag, tagKey) =>
                 <Text key={tagKey} style={this.styles.tag}>
                   #{tag}
                 </Text>
               )}
             </View>
             <Text style={this.styles.description}>
-              {this.state.test.description}
+              {this.props.test.description}
             </Text>
         </TouchableOpacity>
     )

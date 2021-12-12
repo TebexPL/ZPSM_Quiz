@@ -36,29 +36,11 @@ class ResultScreen extends Component{
     }
   }
 
-  init = () =>{
-    this.getResults();
-  }
-
   componentDidMount(){
-    this.props.navigation.addListener('focus',this.init)
+    this.props.navigation.addListener('focus',() => this.getResults());
   }
-
-  renderInner =({ item }) => (
-    <SingleResult result={item} />
-  );
-
-  renderOuter = ({ item }) => (
-    <FlatList
-      ListHeaderComponent={<TypeHint type={item.type} />}
-       data={item.list}
-       renderItem={this.renderInner}
-       keyExtractor={item => item.id}
-     />
-  );
 
   render(){
-
     return (
           <FlatList
             refreshControl={
@@ -68,7 +50,16 @@ class ResultScreen extends Component{
               />
             }
              data={this.state.results}
-             renderItem={this.renderOuter}
+             renderItem={({ item }) => (
+               <FlatList
+                 ListHeaderComponent={<TypeHint type={item.type} />}
+                  data={item.list}
+                  renderItem={({ item }) => (
+                    <SingleResult result={item} />
+                  )}
+                  keyExtractor={item => item.id}
+                />
+             )}
              keyExtractor={item => item.type}
            />
 

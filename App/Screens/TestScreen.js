@@ -56,8 +56,6 @@ class TestScreen extends Component{
 
   sendResult = async () => {
     try {
-      const thisnick = await AsyncStorage.getItem('nick');
-      if(thisnick !== null){
         await fetch('http://tgryl.pl/quiz/result', {
           method: 'POST',
           headers: {
@@ -65,18 +63,12 @@ class TestScreen extends Component{
             'Content-Type': 'application/json'
           },
           body: JSON.stringify({
-            nick: thisnick,
+            nick: this.props.nick,
             score: this.state.score,
             total: this.state.test.details.tasks.length,
             type: this.state.test.name
           })
         })
-
-      }
-
-      else
-      return;
-
     } catch (error) {
       console.log(error)
     }
@@ -135,12 +127,11 @@ class TestScreen extends Component{
 
   render(){
 
-    const styles=this.styles;
+    const styles = this.styles;
     const task = this.state.test.details.tasks[this.state.taskNumber];
     const taskNumber = this.state.taskNumber;
     const tasksLength = this.state.test.details.tasks.length;
     return (
-
       <View style={styles.container}>
         <View style={[styles.container,{display: this.state.completed ? 'none' : 'flex'}]}>
           <Header task={task} taskNumber={taskNumber+1} tasksLength={tasksLength} time={this.state.remainingTime}/>
@@ -151,10 +142,14 @@ class TestScreen extends Component{
             )}
         </View>
         <View style={[styles.container,{display: this.state.completed ? 'flex' : 'none'}]}>
-          <Result completed={this.state.completed} score={this.state.score} max={tasksLength} type={this.state.test.name}/>
+          <Result
+            completed={this.state.completed}
+            score={this.state.score}
+             max={tasksLength}
+             type={this.state.test.name}
+             gotoResults={() => this.props.navigation.navigate('Results')}/>
         </View>
       </View>
-
     )
   }
 };

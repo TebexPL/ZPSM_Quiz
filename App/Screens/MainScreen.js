@@ -8,20 +8,10 @@ import ResultsHint from './MainScreenComponents/ResultsHint';
 
 class MainScreen extends Component{
 
-
-
   constructor(props){
     super(props);
-
-  }
-
-  componentDidMount(){
     this.props.refreshCallback();
   }
-
-  renderItem = ({ item }) => (
-      <TestCard test={item} navigation={this.props.navigation} />
-  );
 
 
   render(){
@@ -35,7 +25,9 @@ class MainScreen extends Component{
         }
          ListHeaderComponent={<ResultsHint navigation={this.props.navigation}/>}
          data={this.props.tests}
-         renderItem={this.renderItem}
+         renderItem={({ item }) => (
+             <TestCard test={item} navigation={this.props.navigation} />
+         )}
          keyExtractor={item => item.id}
        />
 

@@ -8,9 +8,6 @@ class TypeHint extends Component{
 
   constructor(props){
     super(props);
-    this.state = {
-      type: props.type
-    }
 
   }
 
@@ -36,7 +33,7 @@ class TypeHint extends Component{
     return (
         <View style={this.styles.container}>
             <Text style={this.styles.title}>
-              {this.state.type}
+              {this.props.type}
             </Text>
         </View>
     )

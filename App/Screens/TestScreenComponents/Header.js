@@ -23,7 +23,8 @@ class Header extends Component{
       alignItems: 'center',
       padding: '5%',
       width: '100%',
-      backgroundColor: 'white'
+      backgroundColor: 'white',
+      width: '100%'
     },
     testName:{
       fontSize: 30,
@@ -50,7 +51,9 @@ class Header extends Component{
         <Text style={this.styles.testName}>
           Question {this.props.taskNumber}/{this.props.tasksLength}
         </Text>
-        <Progress.Bar progress={this.props.time/this.props.task.duration} color='grey'/>
+        <Progress.Bar
+          progress={this.props.time/this.props.task.duration}
+          color='grey'/>
         <Text style={this.styles.question}>
             {this.props.task.question}
         </Text>

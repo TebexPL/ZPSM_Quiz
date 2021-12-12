@@ -1,54 +1,14 @@
 import * as React from 'react';
 import {Component} from 'react';
 
-import { createDrawerNavigator, DrawerItem } from '@react-navigation/drawer';
+import { createDrawerNavigator} from '@react-navigation/drawer';
 import { NavigationContainer } from '@react-navigation/native';
-import { View, Text} from 'react-native';
+
 
 import MainScreen from './Screens/MainScreen';
 import TestScreen from './Screens/TestScreen';
 import ResultScreen from './Screens/ResultScreen';
-
-
-
-
-function CustomDrawerContent(props) {
-  const arrTests = [];
-  const arr = []
-  for(let i in props.descriptors)
-      arrTests.push(props.descriptors[i]);
-  arr.push(arrTests.shift());
-  arr.push(arrTests.shift());
-
-  return (
-    <View style={{ alignItems: 'center', flexDirection:'column'}}>
-     <View style={{height: 100, justifyContent: 'center', alignItems: 'center'}}>
-        <Text style={{fontSize: 40}}>Quiz App</Text>
-      </View>
-      {arr.map((item, key) =>
-          <DrawerItem
-            label={item.route.name}
-            onPress={() => props.navigation.navigate(item.route.name)}
-            focused={item.navigation.isFocused() ? true : false}
-            activeBackgroundColor='grey'
-            activeTintColor='white'
-            style={{width: '90%'}}
-            key={key} />
-        )}
-        <View style={{height: 1, width: '80%', backgroundColor: 'black'}}></View>
-        {arrTests.map((item, key) =>
-            <DrawerItem
-              label={item.route.name}
-              onPress={() => props.navigation.navigate(item.route.name)}
-              focused={item.navigation.isFocused() ? true : false}
-              activeBackgroundColor='grey'
-              activeTintColor='white'
-              style={{width: '90%'}}
-              key={key} />
-          )}
-      </View>
-  );
-}
+import DrawerContent from './DrawerContent';
 
 
 
@@ -83,18 +43,13 @@ class Drawer extends Component {
 
   Drawer = createDrawerNavigator();
 
-
-
-
-
-
   render(){
     return (
 
       <NavigationContainer>
         <this.Drawer.Navigator
           drawerContent={props =>
-            <CustomDrawerContent {...props} />}
+            <DrawerContent {...props} dividerAfter={2} nick={this.props.nick}/>}
           initialRouteName="Home Page">
           <this.Drawer.Screen name="Home Page" style={{backgroundColor: 'red'}}>
             {({navigation}) =>
@@ -115,7 +70,7 @@ class Drawer extends Component {
               {({navigation}) =>
               <TestScreen
                 navigation={navigation}
-                test={test} />
+                test={test} nick={this.props.nick} />
               }
             </this.Drawer.Screen>
           )}

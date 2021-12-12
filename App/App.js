@@ -20,11 +20,11 @@ setCustomText(globalTextProps);
 
 
 class App extends Component{
-  checkFirstTime = async () => {
+  fetchData = async () => {
     try {
       const value = await AsyncStorage.getItem('nick');
       if(value !== null)
-        this.setState({firstTime: false});
+        this.setState({firstTime: false, nick: value});
       else
       this.setState({firstTime: true});
 
@@ -38,13 +38,13 @@ class App extends Component{
   constructor(){
     super();
     this.state={
-      firstTime: true
+      firstTime: true,
+      nick: ''
     }
   }
 
   componentDidMount(){
-
-    this.checkFirstTime();
+    this.fetchData();
   }
 
 
@@ -56,7 +56,7 @@ class App extends Component{
     } catch (error) {
       console.log(error);
     }
-    this.setState({firstTime: false});
+    this.setState({firstTime: false, nick: nick});
   };
 
 
@@ -64,7 +64,7 @@ class App extends Component{
 
       return this.state.firstTime
       ? (<WelcomeScreen confirm={this.confirm} />)
-      : (<Drawer />)
+      : (<Drawer nick={this.state.nick}/>)
   }
 
 }

@@ -8,9 +8,6 @@ class ResultsHint extends Component{
 
   constructor(props){
     super(props);
-    this.state = {
-        navigation: props.navigation
-    }
   }
 
   styles = StyleSheet.create({
@@ -41,7 +38,6 @@ class ResultsHint extends Component{
       fontSize: 25,
       color: 'white'
     }
-
   })
 
 
@@ -52,14 +48,15 @@ class ResultsHint extends Component{
               Check your results
             </Text>
             <TouchableOpacity
-                onPress={() => this.state.navigation.navigate('Results')} style={this.styles.button} >
+                onPress={() => this.props.navigation.navigate('Results')} style={this.styles.button} >
               <Text style={this.styles.buttonText}>
                 Check it!
               </Text>
             </TouchableOpacity>
         </View>
-    )
-  }
+    )}
+
+    
 };
-//onPress={() => this.state.navigation.navigate('Results')}
+
 export default ResultsHint;

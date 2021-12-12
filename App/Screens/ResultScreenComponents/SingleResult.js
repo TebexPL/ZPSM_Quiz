@@ -8,9 +8,6 @@ class SingleResult extends Component{
 
   constructor(props){
     super(props);
-    this.state = {
-        result: props.result
-    }
   }
 
   styles = StyleSheet.create({
@@ -31,7 +28,7 @@ class SingleResult extends Component{
       fontFamily: 'SairaCondensed-Medium'
     },
     score:{
-      flex:2,
+      flex:1,
       fontSize: 20,
       margin: 10
     },
@@ -46,13 +43,13 @@ class SingleResult extends Component{
     return (
         <View style={this.styles.container}>
             <Text style={this.styles.nick}>
-              {this.state.result.nick}
+              {this.props.result.nick}
             </Text>
             <Text style={this.styles.score}>
-              {this.state.result.score}/{this.state.result.total} punktów
+              {this.props.result.score}/{this.props.result.total} punktów
             </Text>
             <Text style={this.styles.date}>
-              {this.state.result.createdOn}
+              {this.props.result.createdOn}
             </Text>
         </View>
     )

@@ -19,6 +19,19 @@ class Result extends Component{
        justifyContent: 'center',
        backgroundColor:'white'
     },
+    score: {
+      flex: 2,
+      flexDirection: 'column',
+      justifyContent: 'center'
+    },
+    button:{
+      height: '40%',
+      backgroundColor: 'lightgrey',
+      justifyContent: 'center',
+      alignItems:'center',
+      borderRadius: 5
+    }
+
   })
 
 
@@ -28,7 +41,7 @@ class Result extends Component{
 
     return (
       <View style={this.styles.container}>
-        <View style={{flex: 2,flexDirection: 'column', justifyContent: 'center'}}>
+        <View style={this.styles.score}>
           <Text style={{ fontSize: 40}}>
             Test ukończony!
           </Text>
@@ -36,6 +49,15 @@ class Result extends Component{
         <Text style={{flex:1,fontSize: 25}}>
           Twój wynik: {this.props.score}/{this.props.max}
         </Text>
+        <View style={{flex:1, width:'80%'}}>
+          <TouchableOpacity
+            style={this.styles.button}
+            onPress={this.props.gotoResults}>
+
+            <Text style={{fontSize: 30, fontFamily: 'SairaCondensed-Medium'}}>Check scoreboard</Text>
+          </TouchableOpacity>
+        </View>
+
       </View>
     )
   }
