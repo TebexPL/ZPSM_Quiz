@@ -32,7 +32,7 @@ class App extends Component{
       this.setState({firstTime: true});
     }
     finally{
-      SplashScreen.hide();
+      setTimeout(() => SplashScreen.hide(), 500);
     }
   };
   constructor(){
