@@ -44,6 +44,7 @@ class ResultsHint extends Component{
 
   })
 
+
   render(){
     return (
         <View style={this.styles.container}>
@@ -60,5 +61,5 @@ class ResultsHint extends Component{
     )
   }
 };
-
+//onPress={() => this.state.navigation.navigate('Results')}
 export default ResultsHint;

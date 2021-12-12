@@ -8,36 +8,19 @@ import ResultsHint from './MainScreenComponents/ResultsHint';
 
 class MainScreen extends Component{
 
-  getTests = async () => {
-    this.setState({tests: [], loading:true});
-    try{
-      const tests = await (await fetch('http://tgryl.pl/quiz/tests')).json();
-      for(test of tests){
-        const details = await (await fetch('http://tgryl.pl/quiz/test/'+test.id)).json();
-        test.details = details;
-      }
-      this.setState({tests: tests, loading: false});
-    }
-    catch(error){
-      console.error(error);
-    }
-  }
+
 
   constructor(props){
     super(props);
-    this.state = {
-      tests: [],
-      navigation: props.navigation,
-      loading: true
-    }
+
   }
 
   componentDidMount(){
-    this.getTests();
+    this.props.refreshCallback();
   }
 
   renderItem = ({ item }) => (
-      <TestCard test={item} navigation={this.state.navigation} />
+      <TestCard test={item} navigation={this.props.navigation} />
   );
 
 
@@ -46,12 +29,12 @@ class MainScreen extends Component{
       <FlatList
         refreshControl={
           <RefreshControl
-            refreshing={this.state.loading}
-            onRefresh={this.getTests}
+            refreshing={this.props.loading}
+            onRefresh={this.props.refreshCallback}
           />
         }
-         ListHeaderComponent={<ResultsHint navigation={this.state.navigation}/>}
-         data={this.state.tests}
+         ListHeaderComponent={<ResultsHint navigation={this.props.navigation}/>}
+         data={this.props.tests}
          renderItem={this.renderItem}
          keyExtractor={item => item.id}
        />

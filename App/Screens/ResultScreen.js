@@ -36,9 +36,13 @@ class ResultScreen extends Component{
     }
   }
 
-    componentDidMount(){
-      this.getResults();
-    }
+  init = () =>{
+    this.getResults();
+  }
+
+  componentDidMount(){
+    this.props.navigation.addListener('focus',this.init)
+  }
 
   renderInner =({ item }) => (
     <SingleResult result={item} />

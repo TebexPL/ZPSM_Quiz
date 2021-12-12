@@ -10,15 +10,24 @@ import ResultScreen from './Screens/ResultScreen';
 
 class Drawer extends Component {
 
-  getTests = async () => {
-    this.setState({tests: [], loading:true});
+  getTests(){
+    console.log("KURWA");
+    this.setState({loading: false});
+  };
+
+
+
+
+
+  gettests = async () => {
+      this.setState({tests: [], loading:true});
     try{
       const tests = await (await fetch('http://tgryl.pl/quiz/tests')).json();
-      for(test of tests){
+      for(let test of tests){
         const details = await (await fetch('http://tgryl.pl/quiz/test/'+test.id)).json();
         test.details = details;
       }
-      this.setState({tests: tests, loading: false});
+      this.setState({tests: tests, loading:false});
     }
     catch(error){
       console.error(error);
@@ -29,11 +38,8 @@ class Drawer extends Component {
     super(props);
     this.state = {
       tests: [],
-      loading: true
+      loading: false
     }
-  }
-  componentDidMount(){
-    this.getTests();
   }
 
   Drawer = createDrawerNavigator();
@@ -44,14 +50,26 @@ class Drawer extends Component {
       <NavigationContainer>
         <this.Drawer.Navigator initialRouteName="Home Page">
           <this.Drawer.Screen name="Home Page">
-            {({navigation}) => <MainScreen navigation={navigation}/>}
+            {({navigation}) =>
+              <MainScreen
+                navigation={navigation}
+                tests={this.state.tests}
+                loading={this.state.loading}
+                refreshCallback={this.gettests}/>
+            }
           </this.Drawer.Screen>
           <this.Drawer.Screen name="Results"  >
-            {({navigation}) => <ResultScreen navigation={navigation} />}
+            {({navigation}) =>
+              <ResultScreen navigation={navigation} />
+            }
           </this.Drawer.Screen>
           {this.state.tests.map((test, key) =>
             <this.Drawer.Screen name={test.name}  key={key} >
-              {({navigation}) => <TestScreen navigation={navigation} test={test} />}
+              {({navigation}) =>
+              <TestScreen
+                navigation={navigation}
+                test={test} />
+              }
             </this.Drawer.Screen>
           )}
         </this.Drawer.Navigator>

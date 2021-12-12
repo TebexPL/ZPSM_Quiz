@@ -27,7 +27,8 @@ class SingleResult extends Component{
     nick:{
       flex:1,
       fontSize: 20,
-      margin: 10
+      margin: 10,
+      fontFamily: 'SairaCondensed-Medium'
     },
     score:{
       flex:2,

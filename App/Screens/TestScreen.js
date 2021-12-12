@@ -1,7 +1,9 @@
 import * as React from 'react';
 import {Component} from 'react';
-import { TouchableOpacity, View, Text, StyleSheet, FlatList } from 'react-native';
+import { TouchableOpacity, View, Text, StyleSheet, FlatList, AsyncStorage } from 'react-native';
 import Header from './TestScreenComponents/Header';
+import Result from './TestScreenComponents/Result';
+
 
 class TestScreen extends Component{
 
@@ -10,7 +12,7 @@ class TestScreen extends Component{
     this.state = {
       test: props.test,
       taskNumber: 0,
-      remainingTime: props.test.details.tasks[0].duration,
+      remainingTime: 100,
       score:0,
       completed:false
     }
@@ -52,10 +54,40 @@ class TestScreen extends Component{
 
   })
 
+  sendResult = async () => {
+    try {
+      const thisnick = await AsyncStorage.getItem('nick');
+      if(thisnick !== null){
+        await fetch('http://tgryl.pl/quiz/result', {
+          method: 'POST',
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            nick: thisnick,
+            score: this.state.score,
+            total: this.state.test.details.tasks.length,
+            type: this.state.test.name
+          })
+        })
+
+      }
+
+      else
+      return;
+
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+
   nextTest(){
     if(this.state.taskNumber+1==this.state.test.details.tasks.length){
       this.setState({completed: true});
       clearInterval(this.state.interval);
+      this.sendResult();
     }
     else
       this.setState({
@@ -79,9 +111,25 @@ class TestScreen extends Component{
     this.nextTest();
   }
 
-  componentDidMount(){
-    this.setState({interval: setInterval(this.tick, 100)});
+  init = () =>{
+      this.setState({
+          taskNumber: 0,
+          remainingTime: this.state.test.details.tasks[0].duration,
+          score:0,
+          completed:false,
+          interval: setInterval(this.tick, 100)
+        });
   }
+  exit = () =>{
+    clearInterval(this.state.interval);
+  }
+
+
+  componentDidMount(){
+    this.props.navigation.addListener('focus',this.init)
+    this.props.navigation.addListener('blur',this.exit)
+  }
+
 
 
 
@@ -103,7 +151,7 @@ class TestScreen extends Component{
             )}
         </View>
         <View style={[styles.container,{display: this.state.completed ? 'flex' : 'none'}]}>
-        <Text>WYNIK:{this.state.score}</Text>
+          <Result completed={this.state.completed} score={this.state.score} max={tasksLength} type={this.state.test.name}/>
         </View>
       </View>
 

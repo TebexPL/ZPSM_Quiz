@@ -27,6 +27,7 @@ class TypeHint extends Component{
     title:{
       fontSize: 30,
       color: 'white',
+      fontFamily: 'SairaCondensed-Medium'
     },
 
   })
