@@ -4,6 +4,8 @@ import Drawer from './Drawer.js';
 import { AsyncStorage, View, Text } from 'react-native';
 import SplashScreen from 'react-native-splash-screen';
 
+
+
 import {LogBox } from 'react-native';
 LogBox.ignoreLogs(['Reanimated 2', 'AsyncStorage']);
 
@@ -42,6 +44,7 @@ class App extends Component{
       nick: ''
     }
   }
+
 
   componentDidMount(){
     this.fetchData();
