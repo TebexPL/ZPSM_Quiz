@@ -19,6 +19,7 @@ class Drawer extends Component {
 
   getTests = async () => {
     this.setState({tests: [], loading:true});
+    let db;
     try{
       let db = await SQLite.openDatabase('tests.db');
       await db.executeSql(`CREATE TABLE IF NOT EXISTS 'tests' (
@@ -59,7 +60,8 @@ class Drawer extends Component {
     }
     catch(error){
       console.error(error);
-      db.close();
+      if(db !== undefined)
+        db.close();
     }
 
   }

@@ -3,7 +3,7 @@ import {Component} from 'react';
 import { TouchableOpacity, View, Text, StyleSheet, FlatList, AsyncStorage } from 'react-native';
 import Header from './TestScreenComponents/Header';
 import Result from './TestScreenComponents/Result';
-
+const _ = require('lodash');
 
 class TestScreen extends Component{
 
@@ -16,6 +16,7 @@ class TestScreen extends Component{
       score:0,
       completed:false
     }
+
   }
 
   styles = StyleSheet.create({
@@ -104,6 +105,10 @@ class TestScreen extends Component{
   }
 
   init = () =>{
+    this.state.test.details.tasks = _.shuffle(this.state.test.details.tasks);
+    for(let task of this.state.test.details.tasks)
+      task.answers = _.shuffle(task.answers);
+
       this.setState({
           taskNumber: 0,
           remainingTime: this.state.test.details.tasks[0].duration,
